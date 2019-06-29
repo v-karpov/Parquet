@@ -8,7 +8,7 @@ namespace ParquetClassLibrary.Biomes
     /// <summary>
     /// Models the biome that a <see cref="Map.MapRegion"/> embodies.
     /// </summary>
-    public class Biome : Entity
+    public class Biome : GameObject
     {
         #region Characteristics
         /// <summary>
@@ -30,13 +30,13 @@ namespace ParquetClassLibrary.Biomes
         /// <summary>
         /// Describes the parquets that make up this <see cref="Biome"/>.
         /// </summary>
-        public IReadOnlyList<EntityTag> ParquetCriteria { get; }
+        public IReadOnlyList<GameObjectTag> ParquetCriteria { get; }
 
         /// <summary>
         /// Describes the <see cref="Item"/>s a <see cref="Characters.PlayerCharacter"/> needs to
         /// safely access this <see cref="Biome"/>.
         /// </summary>
-        public IReadOnlyList<EntityTag> EntryRequirements { get; }
+        public IReadOnlyList<GameObjectTag> EntryRequirements { get; }
         #endregion
 
         #region Initialization
@@ -52,10 +52,10 @@ namespace ParquetClassLibrary.Biomes
         /// <param name="in_isLiquidBased">Determines whether or not this <see cref="Biome"/> is defined in terms of liquid parquets.</param>
         /// <param name="in_parquetCriteria">Describes the parquets that make up this <see cref="Biome"/>.</param>
         /// <param name="in_entryRequirements">Describes the <see cref="Item"/>s needed to access this <see cref="Biome"/>.</param>
-        public Biome(EntityID in_id, string in_name, string in_description, string in_comment,
+        public Biome(GameObjectID in_id, string in_name, string in_description, string in_comment,
                      int in_tier, Elevation in_elevationCategory,
-                     bool in_isLiquidBased, List<EntityTag> in_parquetCriteria,
-                     List<EntityTag> in_entryRequirements)
+                     bool in_isLiquidBased, List<GameObjectTag> in_parquetCriteria,
+                     List<GameObjectTag> in_entryRequirements)
             : base(All.BiomeIDs, in_id, in_name, in_description, in_comment)
         {
             Precondition.MustBeNonNegative(in_tier, nameof(in_tier));
@@ -63,8 +63,8 @@ namespace ParquetClassLibrary.Biomes
             Tier = in_tier;
             ElevationCategory = in_elevationCategory;
             IsLiquidBased = in_isLiquidBased;
-            ParquetCriteria = (in_parquetCriteria ?? Enumerable.Empty<EntityTag>()).ToList();
-            EntryRequirements = (in_entryRequirements ?? Enumerable.Empty<EntityTag>()).ToList();
+            ParquetCriteria = (in_parquetCriteria ?? Enumerable.Empty<GameObjectTag>()).ToList();
+            EntryRequirements = (in_entryRequirements ?? Enumerable.Empty<GameObjectTag>()).ToList();
         }
         #endregion
     }

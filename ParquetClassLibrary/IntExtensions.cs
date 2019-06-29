@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace ParquetClassLibrary
 {
     /// <summary>
@@ -5,6 +7,9 @@ namespace ParquetClassLibrary
     /// </summary>
     internal static class IntExtensions
     {
+        public static int Magnitude(this Point point)
+            => (int)System.Math.Sqrt(point.X * point.X + point.Y * point.Y);
+
         /// <summary>Ensures an integer falls within the given range.</summary>
         /// <param name="in_int">In int to normalize.</param>
         /// <param name="in_lowBound">The lowest valid value for the int.</param>

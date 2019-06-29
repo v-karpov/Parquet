@@ -9,27 +9,27 @@ namespace ParquetClassLibrary.Parquets
     /// <summary>
     /// Models a sandbox-mode parquet.
     /// </summary>
-    public abstract class ParquetParent : Entity
+    public abstract class ParquetParent : GameObject
     {
         /// <summary>
-        /// The <see cref="EntityID"/> of the <see cref="Items.Item"/> awarded to the player when a character gathers or collects this parquet.
+        /// The <see cref="GameObjectID"/> of the <see cref="Items.Item"/> awarded to the player when a character gathers or collects this parquet.
         /// </summary>
         [JsonProperty(PropertyName = "in_itemID")]
-        public EntityID ItemID { get; }
+        public GameObjectID ItemID { get; }
 
         /// <summary>
         /// Describes the <see cref="Biome"/>(s) that this parquet helps generate.
         /// Guaranteed to never be <c>null</c>.
         /// </summary>
         [JsonProperty(PropertyName = "in_addsToBiome")]
-        public EntityTag AddsToBiome { get; }
+        public GameObjectTag AddsToBiome { get; }
 
         /// <summary>
         /// Describes the <see cref="Rooms.RoomRecipe"/>(s) that this parquet helps generate.
         /// Guaranteed to never be <c>null</c>.
         /// </summary>
         [JsonProperty(PropertyName = "in_addsToRoom")]
-        public EntityTag AddsToRoom { get; }
+        public GameObjectTag AddsToRoom { get; }
 
         #region Initialization
         /// <summary>
@@ -40,19 +40,19 @@ namespace ParquetClassLibrary.Parquets
         /// <param name="in_name">Player-friendly name of the parquet.  Cannot be null or empty.</param>
         /// <param name="in_description">Player-friendly description of the parquet.</param>
         /// <param name="in_comment">Comment of, on, or by the parquet.</param>
-        /// <param name="in_itemID">The <see cref="EntityID"/> of the <see cref="Items.Item"/> awarded to the player when a character gathers or collects this parquet.</param>
+        /// <param name="in_itemID">The <see cref="GameObjectID"/> of the <see cref="Items.Item"/> awarded to the player when a character gathers or collects this parquet.</param>
         /// <param name="in_addsToBiome">Describes which, if any, <see cref="Biome"/>(s) this parquet helps form.</param>
         /// <param name="in_addsToRoom">Describes which, if any, <see cref="Rooms.RoomRecipe"/>(s) this parquet helps form.</param>
         [JsonConstructor]
-        protected ParquetParent(Range<EntityID> in_bounds, EntityID in_id, string in_name, string in_description,
-                                string in_comment, EntityID in_itemID, EntityTag in_addsToBiome, EntityTag in_addsToRoom)
+        protected ParquetParent(Range<GameObjectID> in_bounds, GameObjectID in_id, string in_name, string in_description,
+                                string in_comment, GameObjectID in_itemID, GameObjectTag in_addsToBiome, GameObjectTag in_addsToRoom)
             : base(in_bounds, in_id, in_name, in_description, in_comment)
         {
             Precondition.IsInRange(in_itemID, All.ItemIDs, nameof(in_itemID));
 
             ItemID = in_itemID;
-            AddsToBiome = string.IsNullOrEmpty(in_addsToBiome) ? EntityTag.None : in_addsToBiome;
-            AddsToRoom = string.IsNullOrEmpty(in_addsToRoom) ? EntityTag.None : in_addsToRoom;
+            AddsToBiome = string.IsNullOrEmpty(in_addsToBiome) ? GameObjectTag.None : in_addsToBiome;
+            AddsToRoom = string.IsNullOrEmpty(in_addsToRoom) ? GameObjectTag.None : in_addsToRoom;
         }
         #endregion
     }

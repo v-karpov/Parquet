@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
-using ParquetClassLibrary.Stubs;
+using Microsoft.Xna.Framework;
 
 namespace ParquetClassLibrary.Rooms
 {
     /// <summary>
-    /// Stores an <see cref="Entity"/> collection.
+    /// Stores an <see cref="GameObject"/> collection.
     /// Provides bounds-checking and type-checking against <typeparamref name="ParentType"/>.
     /// </summary>
     /// <remarks>
@@ -17,7 +17,7 @@ namespace ParquetClassLibrary.Rooms
         /// <summary>The internal collection mechanism.</summary>
         private IReadOnlyList<Room> Rooms { get; } = new List<Room>();
 
-        /// <summary>The number of <see cref="Entity"/>s in the <see cref="RoomCollection"/>.</summary>
+        /// <summary>The number of <see cref="GameObject"/>s in the <see cref="RoomCollection"/>.</summary>
         public int Count
             => Rooms.Count;
 
@@ -34,7 +34,7 @@ namespace ParquetClassLibrary.Rooms
         /// </summary>
         /// <param name="in_position">An in-bonds position to search for a <see cref="Room"/>.</param>
         /// <returns>The specified <see cref="Room"/> if found; otherwise, null.</returns>
-        public Room GetRoomAt(Vector2Int in_position)
+        public Room GetRoomAt(Point in_position)
             => Rooms.First(room => room.ContainsPosition(in_position));
 
         #region Utility Methods

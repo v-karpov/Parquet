@@ -8,19 +8,19 @@ namespace ParquetClassLibrary.Parquets
     public struct ParquetStack : IParquetStack
     {
         /// <summary>Cannonical null <see cref="ParquetStack"/>, representing an arbitrary empty stack.</summary>
-        public static ParquetStack Empty => new ParquetStack(EntityID.None, EntityID.None, EntityID.None, EntityID.None);
+        public static ParquetStack Empty => new ParquetStack(GameObjectID.None, GameObjectID.None, GameObjectID.None, GameObjectID.None);
 
         /// <summary>The floor contained in this stack.</summary>
-        public EntityID Floor { get; }
+        public GameObjectID Floor { get; }
 
         /// <summary>The block contained in this stack.</summary>
-        public EntityID Block { get; }
+        public GameObjectID Block { get; }
 
         /// <summary>The furnishing contained in this stack.</summary>
-        public EntityID Furnishing { get; }
+        public GameObjectID Furnishing { get; }
 
         /// <summary>The collectible contained in this stack.</summary>
-        public EntityID Collectible { get; }
+        public GameObjectID Collectible { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParquetStack"/> struct.
@@ -29,7 +29,7 @@ namespace ParquetClassLibrary.Parquets
         /// <param name="in_block">The The floor-layer parquet-layer parquet.</param>
         /// <param name="in_furnishing">The furnishing-layer parquet.</param>
         /// <param name="in_collectible">The collectible-layer parquet.</param>
-        public ParquetStack(EntityID in_floor, EntityID in_block, EntityID in_furnishing, EntityID in_collectible)
+        public ParquetStack(GameObjectID in_floor, GameObjectID in_block, GameObjectID in_furnishing, GameObjectID in_collectible)
         {
             Precondition.IsInRange(in_floor, All.FloorIDs, nameof(in_floor));
             Precondition.IsInRange(in_block, All.BlockIDs, nameof(in_block));
@@ -46,9 +46,9 @@ namespace ParquetClassLibrary.Parquets
         /// Indicates whether this <see cref="ParquetStack"/> is empty.
         /// </summary>
         /// <value><c>true</c> if the stack contains only null references; otherwise, <c>false</c>.</value>
-        public bool IsEmpty => EntityID.None == Floor &&
-                               EntityID.None == Block &&
-                               EntityID.None == Furnishing &&
-                               EntityID.None == Collectible;
+        public bool IsEmpty => GameObjectID.None == Floor &&
+                               GameObjectID.None == Block &&
+                               GameObjectID.None == Furnishing &&
+                               GameObjectID.None == Collectible;
     }
 }

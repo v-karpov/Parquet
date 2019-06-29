@@ -4,11 +4,7 @@ using Newtonsoft.Json.Linq;
 using ParquetClassLibrary.Biomes;
 using ParquetClassLibrary.Parquets;
 using ParquetClassLibrary.Utilities;
-#if UNITY_2018_4_OR_NEWER
-using UnityEngine;
-#else
-using ParquetClassLibrary.Stubs;
-#endif
+using Microsoft.Xna.Framework;
 
 namespace ParquetClassLibrary.Map
 {
@@ -20,7 +16,7 @@ namespace ParquetClassLibrary.Map
     {
         #region Class Defaults
         /// <summary>The region's dimensions in parquets.</summary>
-        public override Vector2Int DimensionsInParquets { get; } = new Vector2Int(All.Dimensions.ParquetsPerRegion,
+        public override Point DimensionsInParquets { get; } = new Point(All.Dimensions.ParquetsPerRegion,
                                                                                   All.Dimensions.ParquetsPerRegion);
 
         /// <summary>Default name for new regions.</summary>

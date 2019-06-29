@@ -1,13 +1,10 @@
 using System;
 using System.Text;
+using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
 using ParquetClassLibrary.Utilities;
-#if UNITY_2018_4_OR_NEWER
-using UnityEngine;
-#else
-using ParquetClassLibrary.Stubs;
-#endif
 
 namespace ParquetClassLibrary.Map
 {
@@ -20,7 +17,7 @@ namespace ParquetClassLibrary.Map
     {
         #region Class Defaults
         /// <summary>The grid's dimensions in chunks.</summary>
-        public static readonly Vector2Int DimensionsInChunks = new Vector2Int(All.Dimensions.ChunksPerRegion,
+        public static readonly Point DimensionsInChunks = new Point(All.Dimensions.ChunksPerRegion,
                                                                               All.Dimensions.ChunksPerRegion);
         #endregion
 
@@ -92,7 +89,7 @@ namespace ParquetClassLibrary.Map
         /// <param name="in_orientation">The orientation to set.</param>
         /// <param name="in_position">The position at which to set it.</param>
         /// <returns><c>true</c> if the position was valid, <c>false</c> otherwise.</returns>
-        public bool SetChunk(ChunkType in_type, ChunkOrientation in_orientation, Vector2Int in_position)
+        public bool SetChunk(ChunkType in_type, ChunkOrientation in_orientation, Point in_position)
         {
             var valid = IsValidPosition(in_position);
 
@@ -112,7 +109,7 @@ namespace ParquetClassLibrary.Map
         /// <returns>
         /// If <paramref name="in_position"/> is valid, the chunk type and orientation; null otherwise.
         /// </returns>
-        public (ChunkType type, ChunkOrientation orientation)? GetChunk(Vector2Int in_position)
+        public (ChunkType type, ChunkOrientation orientation)? GetChunk(Point in_position)
         {
             return IsValidPosition(in_position)
                 ? ((ChunkType type, ChunkOrientation orientation)?)
@@ -180,7 +177,7 @@ namespace ParquetClassLibrary.Map
         /// </summary>
         /// <param name="in_position">The position to validate.</param>
         /// <returns><c>true</c>, if the position is valid, <c>false</c> otherwise.</returns>
-        public bool IsValidPosition(Vector2Int in_position)
+        public bool IsValidPosition(Point in_position)
         {
             return in_position.X > -1
                 && in_position.Y > -1
@@ -195,7 +192,7 @@ namespace ParquetClassLibrary.Map
         /// <returns>A string containing a 2D grid representing the chunks in this grid.</returns>
         public string DumpMap()
         {
-            var representation = new StringBuilder(DimensionsInChunks.Magnitude);
+            var representation = new StringBuilder(DimensionsInChunks.X * DimensionsInChunks.X + DimensionsInChunks.Y * DimensionsInChunks.Y);
             #region Compose visual represenation of contents.
             for (var y = 0; y < DimensionsInChunks.Y; y++)
             {

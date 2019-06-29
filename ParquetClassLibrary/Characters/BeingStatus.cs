@@ -64,32 +64,32 @@ namespace ParquetClassLibrary.Characters
         #region Collections
         /// <summary>The <see cref="Critter"/>s that this <see cref="Character"/> has encountered.</summary>
         [JsonProperty(PropertyName = "in_knownCritters")]
-        public List<EntityID> KnownCritters { get; }
+        public List<GameObjectID> KnownCritters { get; }
 
         /// <summary>The <see cref="NPC"/>s that this <see cref="Character"/> has met.</summary>
         [JsonProperty(PropertyName = "in_knownCharacters")]
-        public List<EntityID> KnownNPCs { get; }
+        public List<GameObjectID> KnownNPCs { get; }
 
         /// <summary>The parquets that this <see cref="Character"/> has analyzed.</summary>
         [JsonProperty(PropertyName = "in_knownParquets")]
-        public List<EntityID> KnownParquets { get; }
+        public List<GameObjectID> KnownParquets { get; }
 
         /// <summary>The <see cref="RoomRecipe"/>s that this <see cref="Character"/> knows.</summary>
         [JsonProperty(PropertyName = "in_knownRoomRecipes")]
-        public List<EntityID> KnownRoomRecipes { get; }
+        public List<GameObjectID> KnownRoomRecipes { get; }
 
         /// <summary>The <see cref="Crafting.CraftingRecipe"/>s that this <see cref="Character"/> knows.</summary>
         [JsonProperty(PropertyName = "in_knownCraftingRecipes")]
-        public List<EntityID> KnownCraftingRecipes { get; }
+        public List<GameObjectID> KnownCraftingRecipes { get; }
 
         /// <summary>The <see cref="Quests.Quest"/>s that this <see cref="Character"/> offers or has undertaken.</summary>
         [JsonProperty(PropertyName = "in_quests")]
-        public List<EntityID> Quests { get; }
+        public List<GameObjectID> Quests { get; }
 
         /// <summary>This <see cref="Character"/>'s set of belongings.</summary>
         // TODO This is just a place-holder, inventory needs to be its own class.
         [JsonProperty(PropertyName = "in_inventory")]
-        public List<EntityID> Inventory { get; }
+        public List<GameObjectID> Inventory { get; }
         #endregion
 
         #region Initialization
@@ -118,19 +118,19 @@ namespace ParquetClassLibrary.Characters
                            int in_biomeTimeRemaining,
                            float in_buildingSpeed, float in_modificationSpeed,
                            float in_gatheringSpeed, float in_movementSpeed,
-                           List<EntityID> in_knownCritters = null, List<EntityID> in_knownNPCs = null,
-                           List<EntityID> in_knownParquets = null, List<EntityID> in_knownRoomRecipes = null,
-                           List<EntityID> in_knownCraftingRecipes = null, List<EntityID> in_quests = null,
-                           List<EntityID> in_inventory = null)
+                           List<GameObjectID> in_knownCritters = null, List<GameObjectID> in_knownNPCs = null,
+                           List<GameObjectID> in_knownParquets = null, List<GameObjectID> in_knownRoomRecipes = null,
+                           List<GameObjectID> in_knownCraftingRecipes = null, List<GameObjectID> in_quests = null,
+                           List<GameObjectID> in_inventory = null)
         {
             Precondition.IsNotNull(in_beingDefinition, nameof(in_beingDefinition));
-            var nonNullCritters = in_knownCritters ?? Enumerable.Empty<EntityID>().ToList();
-            var nonNullNPCs = in_knownNPCs ?? Enumerable.Empty<EntityID>().ToList();
-            var nonNullParquets = in_knownParquets ?? Enumerable.Empty<EntityID>().ToList();
-            var nonNullRoomRecipes = in_knownRoomRecipes  ?? Enumerable.Empty<EntityID>().ToList();
-            var nonNullCraftingRecipes = in_knownCraftingRecipes ?? Enumerable.Empty<EntityID>().ToList();
-            var nonNullQuests = in_quests ?? Enumerable.Empty<EntityID>().ToList();
-            var nonNullInventory = in_inventory ?? Enumerable.Empty<EntityID>().ToList();
+            var nonNullCritters = in_knownCritters ?? Enumerable.Empty<GameObjectID>().ToList();
+            var nonNullNPCs = in_knownNPCs ?? Enumerable.Empty<GameObjectID>().ToList();
+            var nonNullParquets = in_knownParquets ?? Enumerable.Empty<GameObjectID>().ToList();
+            var nonNullRoomRecipes = in_knownRoomRecipes  ?? Enumerable.Empty<GameObjectID>().ToList();
+            var nonNullCraftingRecipes = in_knownCraftingRecipes ?? Enumerable.Empty<GameObjectID>().ToList();
+            var nonNullQuests = in_quests ?? Enumerable.Empty<GameObjectID>().ToList();
+            var nonNullInventory = in_inventory ?? Enumerable.Empty<GameObjectID>().ToList();
             Precondition.AreInRange(nonNullCritters, All.CritterIDs, nameof(in_knownCritters));
             Precondition.AreInRange(nonNullNPCs, All.NpcIDs, nameof(in_knownNPCs));
             Precondition.AreInRange(nonNullParquets, All.ParquetIDs, nameof(in_knownParquets));

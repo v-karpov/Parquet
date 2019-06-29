@@ -21,7 +21,7 @@ namespace ParquetClassLibrary.Parquets
         /// <summary>The set of values that are allowed for Block IDs.</summary>
         // TODO Test if we can remove this ignore tag.
         [JsonIgnore]
-        public static Range<EntityID> Bounds => All.BlockIDs;
+        public static Range<GameObjectID> Bounds => All.BlockIDs;
         #endregion
 
         #region Parquet Mechanics
@@ -35,7 +35,7 @@ namespace ParquetClassLibrary.Parquets
 
         /// <summary>The Collectible spawned when a character gathers this Block.</summary>
         [JsonProperty(PropertyName = "in_collectibleID")]
-        public EntityID CollectibleID { get; }
+        public GameObjectID CollectibleID { get; }
 
         /// <summary>The block is flammable.</summary>
         [JsonProperty(PropertyName = "in_isFlammable")]
@@ -67,17 +67,17 @@ namespace ParquetClassLibrary.Parquets
         /// <param name="in_isLiquid">If <c>true</c> this block will flow.</param>
         /// <param name="in_maxToughness">Representation of the difficulty involved in gathering this block.</param>
         [JsonConstructor]
-        public Block(EntityID in_id, string in_name, string in_description, string in_comment,
-                     EntityID? in_itemID = null, EntityTag? in_addsToBiome = null,
-                      EntityTag? in_addsToRoom = null,
+        public Block(GameObjectID in_id, string in_name, string in_description, string in_comment,
+                     GameObjectID? in_itemID = null, GameObjectTag? in_addsToBiome = null,
+                      GameObjectTag? in_addsToRoom = null,
                      GatheringTools in_gatherTool = GatheringTools.None,
                      GatheringEffect in_gatherEffect = GatheringEffect.None,
-                     EntityID? in_collectibleID = null, bool in_isFlammable = false,
+                     GameObjectID? in_collectibleID = null, bool in_isFlammable = false,
                      bool in_isLiquid = false, int in_maxToughness = DefaultMaxToughness)
-            : base(Bounds, in_id, in_name, in_description, in_comment, in_itemID ?? EntityID.None,
-                   in_addsToBiome ?? EntityTag.None, in_addsToRoom ?? EntityTag.None)
+            : base(Bounds, in_id, in_name, in_description, in_comment, in_itemID ?? GameObjectID.None,
+                   in_addsToBiome ?? GameObjectTag.None, in_addsToRoom ?? GameObjectTag.None)
         {
-            var nonNullCollectibleID = in_collectibleID ?? EntityID.None;
+            var nonNullCollectibleID = in_collectibleID ?? GameObjectID.None;
 
             Precondition.IsInRange(nonNullCollectibleID, All.CollectibleIDs, nameof(in_collectibleID));
 

@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ParquetClassLibrary.Parquets;
 using ParquetClassLibrary.Utilities;
-#if UNITY_2018_4_OR_NEWER
-using UnityEngine;
-#else
-using ParquetClassLibrary.Stubs;
-#endif
+using Microsoft.Xna.Framework;
 
 namespace ParquetClassLibrary.Rooms
 {
@@ -29,22 +25,22 @@ namespace ParquetClassLibrary.Rooms
         public readonly HashSet<Space> Perimeter;
 
         /// <summary>
-        /// The cached <see cref="EntityID"/>s for every <see cref="Furnishing"/> found in this <see cref="Room"/>
+        /// The cached <see cref="GameObjectID"/>s for every <see cref="Furnishing"/> found in this <see cref="Room"/>
         /// together with the number of times that furnishing occurs.
         /// </summary>
-        private IEnumerable<EntityTag> _cachedFurnishings;
+        private IEnumerable<GameObjectTag> _cachedFurnishings;
 
         /// <summary>
-        /// The <see cref="EntityID"/>s for every <see cref="Furnishing"/> found in this <see cref="Room"/>
+        /// The <see cref="GameObjectID"/>s for every <see cref="Furnishing"/> found in this <see cref="Room"/>
         /// together with the number of times that furnishing occurs.
         /// </summary>
-        public IEnumerable<EntityTag> FurnishingTags
+        public IEnumerable<GameObjectTag> FurnishingTags
             => _cachedFurnishings
-            ?? (_cachedFurnishings = new List<EntityTag>(
+            ?? (_cachedFurnishings = new List<GameObjectTag>(
                     WalkableArea
                     .Concat(Perimeter)
-                    .Where(space => EntityID.None != space.Content.Furnishing
-                                 && EntityTag.None != All.Parquets.Get<Furnishing>(space.Content.Furnishing).AddsToRoom)
+                    .Where(space => GameObjectID.None != space.Content.Furnishing
+                                 && GameObjectTag.None != All.Parquets.Get<Furnishing>(space.Content.Furnishing).AddsToRoom)
                     .Select(space => All.Parquets.Get<Furnishing>(space.Content.Furnishing).AddsToRoom)
                 )
             );
@@ -55,7 +51,7 @@ namespace ParquetClassLibrary.Rooms
         /// <remarks>
         /// A value of <c>null</c> indicates that this <see cref="Room"/> has yet to be located.
         /// </remarks>
-        private Vector2Int? _cachedPosition;
+        private Point? _cachedPosition;
 
         /// <summary>
         /// A location with the least X and Y coordinates of every <see cref="Space"/> in this <see cref="Room"/>.
@@ -63,23 +59,23 @@ namespace ParquetClassLibrary.Rooms
         /// <remarks>
         /// This location could server as a the upper, left point of a bounding rectangle entirely containing the room.
         /// </remarks>
-        public Vector2Int Position
-            => (Vector2Int)(
+        public Point Position
+            => (Point)(
                 null == _cachedPosition
-                    ? _cachedPosition = new Vector2Int(Perimeter.Select(space => space.Position.X).Min(),
+                    ? _cachedPosition = new Point(Perimeter.Select(space => space.Position.X).Min(),
                                                        Perimeter.Select(space => space.Position.Y).Min())
                     : _cachedPosition);
 
         /// <summary>
         /// The cached <see cref="RoomRecipe"/> identifier.
-        /// A value of <see cref="EntityID.None"/> indicates that this <see cref="Room"/>
+        /// A value of <see cref="GameObjectID.None"/> indicates that this <see cref="Room"/>
         /// has yet to be matched with a <see cref="RoomRecipe"/>.
         /// </summary>
-        private EntityID? _cachedRecipeID;
+        private GameObjectID? _cachedRecipeID;
 
         /// <summary>The <see cref="RoomRecipe"/> that this <see cref="Room"/> matches.</summary>
-        public EntityID RecipeID
-            => (EntityID)(null == _cachedRecipeID
+        public GameObjectID RecipeID
+            => (GameObjectID)(null == _cachedRecipeID
                 ? _cachedRecipeID = All.Recipes.Rooms.FindBestMatch(this)
                 : _cachedRecipeID);
 
@@ -128,7 +124,7 @@ namespace ParquetClassLibrary.Rooms
         /// </summary>
         /// <param name="in_position">The position to check for.</param>
         /// <returns><c>true</c>, if the position was containsed, <c>false</c> otherwise.</returns>
-        public bool ContainsPosition(Vector2Int in_position)
+        public bool ContainsPosition(Point in_position)
             => WalkableArea.Concat(Perimeter).Any(space => space.Position == in_position);
 
         /// <summary>

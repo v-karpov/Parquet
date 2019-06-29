@@ -39,7 +39,7 @@ namespace ParquetClassLibrary.Characters
 
         /// <summary>The <see cref="Quests.Quest"/>s that this <see cref="Character"/> either offers or has undertaken.</summary>
         /// <remarks><see cref="NPC"/>s offer quests, <see cref="PlayerCharacter"/>s undertake them.</remarks>
-        public IReadOnlyList<EntityID> StartingQuests { get; }
+        public IReadOnlyList<GameObjectID> StartingQuests { get; }
 
         /// <summary>Dialogue lines this <see cref="Character"/> can say.</summary>
         // TODO This is just a place-holder, I am not at all sure how we will handle this.
@@ -47,7 +47,7 @@ namespace ParquetClassLibrary.Characters
 
         /// <summary>The set of belongings that this <see cref="Character"/> begins with.</summary>
         /// <remarks>This is not the full <see cref="Items.Inventory"/> but a list of item IDs to populate it with.</remarks>
-        public IReadOnlyList<EntityID> StartingInventory { get; }
+        public IReadOnlyList<GameObjectID> StartingInventory { get; }
         #endregion
 
         #region Initialization
@@ -55,7 +55,7 @@ namespace ParquetClassLibrary.Characters
         /// Initializes a new instance of the <see cref="Character"/> class.
         /// </summary>
         /// <param name="in_bounds">
-        /// The bounds within which the <see cref="Character"/>'s <see cref="EntityID"/> is defined.
+        /// The bounds within which the <see cref="Character"/>'s <see cref="GameObjectID"/> is defined.
         /// Must be one of <see cref="All.BeingIDs"/>.
         /// </param>
         /// <param name="in_id">Unique identifier for the <see cref="Character"/>.  Cannot be null.</param>
@@ -71,19 +71,19 @@ namespace ParquetClassLibrary.Characters
         /// <param name="in_startingQuests">Any quests this <see cref="Character"/> has to offer or has undertaken.</param>
         /// <param name="in_dialogue">All dialogue this <see cref="Character"/> may say.</param>
         /// <param name="in_startingInventory">Any items this <see cref="Character"/> owns at the outset.</param>
-        protected Character(Range<EntityID> in_bounds, EntityID in_id,
+        protected Character(Range<GameObjectID> in_bounds, GameObjectID in_id,
                             string in_personalName, string in_familyName,
-                            string in_description, string in_comment, EntityID in_nativeBiome,
-                            Behavior in_primaryBehavior, List<EntityID> in_avoids = null,
-                            List<EntityID> in_seeks = null, string in_pronoun = DefaultPronoun,
-                            string in_storyCharacterID = "", List<EntityID> in_startingQuests = null,
-                            List<string> in_dialogue = null, List<EntityID> in_startingInventory = null)
+                            string in_description, string in_comment, GameObjectID in_nativeBiome,
+                            Behavior in_primaryBehavior, List<GameObjectID> in_avoids = null,
+                            List<GameObjectID> in_seeks = null, string in_pronoun = DefaultPronoun,
+                            string in_storyCharacterID = "", List<GameObjectID> in_startingQuests = null,
+                            List<string> in_dialogue = null, List<GameObjectID> in_startingInventory = null)
             : base(in_bounds, in_id, $"{in_personalName} {in_familyName}", in_description, in_comment,
                    in_nativeBiome, in_primaryBehavior, in_avoids, in_seeks)
         {
             var nonNullPronoun = string.IsNullOrEmpty(in_pronoun) ? DefaultPronoun : in_pronoun;
-            var nonNullQuests = in_startingQuests ?? Enumerable.Empty<EntityID>();
-            var nonNullInventory = in_startingInventory ?? Enumerable.Empty<EntityID>();
+            var nonNullQuests = in_startingQuests ?? Enumerable.Empty<GameObjectID>();
+            var nonNullInventory = in_startingInventory ?? Enumerable.Empty<GameObjectID>();
 
             Precondition.AreInRange(nonNullQuests, All.QuestIDs, nameof(in_startingQuests));
             Precondition.AreInRange(nonNullInventory, All.ItemIDs, nameof(in_startingInventory));

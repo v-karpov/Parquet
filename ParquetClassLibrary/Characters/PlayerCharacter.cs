@@ -24,12 +24,12 @@ namespace ParquetClassLibrary.Characters
         /// <param name="in_storyCharacterID">A means of identifying this <see cref="PlayerCharacter"/> across multiple shipped game titles.</param>
         /// <param name="in_startingQuests">Any quests this <see cref="PlayerCharacter"/> has to offer or has undertaken.</param>
         /// <param name="in_startingInventory">Any items this <see cref="PlayerCharacter"/> owns at the outset.</param>
-        public PlayerCharacter(EntityID in_id, string in_description, string in_comment,
+        public PlayerCharacter(GameObjectID in_id, string in_description, string in_comment,
                                string in_personalName, string in_familyName,
                                string in_pronoun = DefaultPronoun, string in_storyCharacterID = "",
-                               List<EntityID> in_startingQuests = null, List<EntityID> in_startingInventory = null)
+                               List<GameObjectID> in_startingQuests = null, List<GameObjectID> in_startingInventory = null)
             : base(All.PlayerCharacterIDs, in_id, in_description, in_comment, in_personalName, in_familyName,
-                   EntityID.None, Behavior.PlayerControlled, null, null, in_pronoun, in_storyCharacterID,
+                   GameObjectID.None, Behavior.PlayerControlled, null, null, in_pronoun, in_storyCharacterID,
                    in_startingQuests, null, in_startingInventory)
         {
             if (!in_id.IsValidForRange(All.PlayerCharacterIDs))

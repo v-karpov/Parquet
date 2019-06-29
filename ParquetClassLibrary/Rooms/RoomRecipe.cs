@@ -9,7 +9,7 @@ namespace ParquetClassLibrary.Rooms
     /// <summary>
     /// Models the minimum requirements for a <see cref="Room"/> to be recognizable and useful.
     /// </summary>
-    public class RoomRecipe : Entity
+    public class RoomRecipe : GameObject
     {
         #region Recipe Requirements
         /// <summary>
@@ -47,7 +47,7 @@ namespace ParquetClassLibrary.Rooms
         /// <param name="in_MinimumWalkableSpaces">The minimum number of walkable <see cref="Space"/>s required by this <see cref="RoomRecipe"/>.</param>
         /// <param name="in_optionallyRequiredWalkableFloors">An optional list of floor categories this <see cref="RoomRecipe"/> requires.</param>
         /// <param name="in_optionallyRequiredPerimeterBlocks">An optional list of block categories this <see cref="RoomRecipe"/> requires as walls.</param>
-        public RoomRecipe(EntityID in_id, string in_name, string in_description, string in_comment,
+        public RoomRecipe(GameObjectID in_id, string in_name, string in_description, string in_comment,
                           List<RecipeElement> in_requiredFurnishings,
                           int in_MinimumWalkableSpaces = All.Recipes.Rooms.MinWalkableSpaces,
                           List<RecipeElement> in_optionallyRequiredWalkableFloors = null,

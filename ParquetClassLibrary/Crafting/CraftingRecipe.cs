@@ -8,7 +8,7 @@ namespace ParquetClassLibrary.Crafting
     /// <summary>
     /// Models the ingredients and process needed to produce a new item.
     /// </summary>
-    public class CraftingRecipe : Entity
+    public class CraftingRecipe : GameObject
     {
         /// <summary>Used in defining <see cref="NotCraftable"/>.</summary>
         private static IReadOnlyList<RecipeElement> EmptyCraftingElementList { get; } =
@@ -16,7 +16,7 @@ namespace ParquetClassLibrary.Crafting
 
         /// <summary>Represents the lack of a <see cref="CraftingRecipe"/> for uncraftable <see cref="Items.Item"/>s.</summary>
         public static CraftingRecipe NotCraftable { get; } =
-            new CraftingRecipe(EntityID.None, "Not Craftable", "Not Craftable", "",
+            new CraftingRecipe(GameObjectID.None, "Not Craftable", "Not Craftable", "",
                                EmptyCraftingElementList, EmptyCraftingElementList,
                                new StrikePanel[All.Dimensions.PanelsPerPatternHeight,
                                                All.Dimensions.PanelsPerPatternWidth]);
@@ -44,7 +44,7 @@ namespace ParquetClassLibrary.Crafting
         /// Thrown when <paramref name="in_panelPattern"/> has zero-dimensions or dimensions larger than those given by
         /// <see cref="All.Dimensions.PanelsPerPatternWidth"/> and <see cref="All.Dimensions.PanelsPerPatternHeight"/>.
         /// </exception>
-        public CraftingRecipe(EntityID in_id, string in_name, string in_description, string in_comment,
+        public CraftingRecipe(GameObjectID in_id, string in_name, string in_description, string in_comment,
                               IEnumerable<RecipeElement> in_products,
                               IEnumerable<RecipeElement> in_ingredients, StrikePanel[,] in_panelPattern)
             : base(All.CraftingRecipeIDs, in_id, in_name, in_description, in_comment)

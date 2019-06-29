@@ -5,17 +5,17 @@ using ParquetClassLibrary.Utilities;
 namespace ParquetClassLibrary
 {
     /// <summary>
-    /// Models the category and amount of an <see cref="Entity"/> from a recipe, e.g. <see cref="Crafting.CraftingRecipe"/>
+    /// Models the category and amount of an <see cref="GameObject"/> from a recipe, e.g. <see cref="Crafting.CraftingRecipe"/>
     /// or <see cref="Rooms.RoomRecipe"/>.  The <see cref="RecipeElement"/> may either be consumed as an ingredient
     /// or returned as the final product.
     /// </summary>
     public struct RecipeElement : IEquatable<RecipeElement>
     {
         /// <summary>Indicates the lack of any <see cref="RecipeElement"/>s.</summary>
-        public static readonly RecipeElement None = new RecipeElement(EntityTag.None, 1);
+        public static readonly RecipeElement None = new RecipeElement(GameObjectTag.None, 1);
 
-        /// <summary>An <see cref="EntityTag"/> describing the <see cref="Item"/>.</summary>
-        public EntityTag ElementTag { get; }
+        /// <summary>An <see cref="GameObjectTag"/> describing the <see cref="Item"/>.</summary>
+        public GameObjectTag ElementTag { get; }
 
         /// <summary>The number of <see cref="Item"/>s.</summary>
         public int ElementAmount { get; }
@@ -23,9 +23,9 @@ namespace ParquetClassLibrary
         /// <summary>
         /// Initializes a new instance of the <see cref="RecipeElement"/> struct.
         /// </summary>
-        /// <param name="in_itemTag">An <see cref="EntityTag"/> describing the <see cref="Item"/>.</param>
+        /// <param name="in_itemTag">An <see cref="GameObjectTag"/> describing the <see cref="Item"/>.</param>
         /// <param name="in_itemAmount">In amount of the <see cref="Item"/>.  Must be positive.</param>
-        public RecipeElement(EntityTag in_itemTag, int in_itemAmount)
+        public RecipeElement(GameObjectTag in_itemTag, int in_itemAmount)
         {
             Precondition.MustBePositive(in_itemAmount, nameof(in_itemAmount));
 
@@ -61,7 +61,7 @@ namespace ParquetClassLibrary
             => obj is RecipeElement element && Equals(element);
 
         /// <summary>
-        /// Determines whether a specified instance of <see cref="RecipeElement"/> is equal to another specified instance of <see cref="Entity"/>.
+        /// Determines whether a specified instance of <see cref="RecipeElement"/> is equal to another specified instance of <see cref="GameObject"/>.
         /// </summary>
         /// <param name="in_element1">The first <see cref="RecipeElement"/> to compare.</param>
         /// <param name="in_element2">The second <see cref="RecipeElement"/> to compare.</param>

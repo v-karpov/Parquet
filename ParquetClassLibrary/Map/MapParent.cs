@@ -3,11 +3,7 @@ using System.Text;
 using Newtonsoft.Json;
 using ParquetClassLibrary.Parquets;
 using ParquetClassLibrary.Map.SpecialPoints;
-#if UNITY_2018_4_OR_NEWER
-using UnityEngine;
-#else
-using ParquetClassLibrary.Stubs;
-#endif
+using Microsoft.Xna.Framework;
 
 // ReSharper disable InconsistentNaming
 
@@ -22,7 +18,7 @@ namespace ParquetClassLibrary.Map
     {
         #region Class Defaults
         /// <summary>Dimensions in parquets.  Defined by child classes.</summary>
-        public abstract Vector2Int DimensionsInParquets { get; }
+        public abstract Point DimensionsInParquets { get; }
         #endregion
 
         #region Whole-Map Characteristics
@@ -60,10 +56,10 @@ namespace ParquetClassLibrary.Map
                 {
                     for (var x = 0; x < DimensionsInParquets.X; x++)
                     {
-                        count += EntityID.None != _parquetDefintion[y, x].Floor ? 1 : 0;
-                        count += EntityID.None != _parquetDefintion[y, x].Block ? 1 : 0;
-                        count += EntityID.None != _parquetDefintion[y, x].Furnishing ? 1 : 0;
-                        count += EntityID.None != _parquetDefintion[y, x].Collectible ? 1 : 0;
+                        count += GameObjectID.None != _parquetDefintion[y, x].Floor ? 1 : 0;
+                        count += GameObjectID.None != _parquetDefintion[y, x].Block ? 1 : 0;
+                        count += GameObjectID.None != _parquetDefintion[y, x].Furnishing ? 1 : 0;
+                        count += GameObjectID.None != _parquetDefintion[y, x].Collectible ? 1 : 0;
                     }
                 }
 
@@ -79,7 +75,7 @@ namespace ParquetClassLibrary.Map
         /// <param name="in_floorID">ID for the new floor to set.</param>
         /// <param name="in_position">The position to set.</param>
         /// <returns><c>true</c>, if the floor was set, <c>false</c> otherwise.</returns>
-        public bool TrySetFloorDefinition(EntityID in_floorID, Vector2Int in_position)
+        public bool TrySetFloorDefinition(GameObjectID in_floorID, Point in_position)
             // TODO If you make these nullable in TrySetParquet these calls can besimplified and the validity check postponned
             => IsValidPosition(in_position)
             && TrySetParquetDefinition(
@@ -95,7 +91,7 @@ namespace ParquetClassLibrary.Map
         /// <param name="in_blockID">ID for the new block to set.</param>
         /// <param name="in_position">The position to set.</param>
         /// <returns><c>true</c>, if the block was set, <c>false</c> otherwise.</returns>
-        public bool TrySetBlockDefinition(EntityID in_blockID, Vector2Int in_position)
+        public bool TrySetBlockDefinition(GameObjectID in_blockID, Point in_position)
             => IsValidPosition(in_position)
             && TrySetParquetDefinition(
                     _parquetDefintion[in_position.Y, in_position.X].Floor,
@@ -110,7 +106,7 @@ namespace ParquetClassLibrary.Map
         /// <param name="in_furnishingID">ID for the new furnishing to set.</param>
         /// <param name="in_position">The position to set.</param>
         /// <returns><c>true</c>, if the furnishing was set, <c>false</c> otherwise.</returns>
-        public bool TrySetFurnishingDefinition(EntityID in_furnishingID, Vector2Int in_position)
+        public bool TrySetFurnishingDefinition(GameObjectID in_furnishingID, Point in_position)
             => IsValidPosition(in_position)
             && TrySetParquetDefinition(
                     _parquetDefintion[in_position.Y, in_position.X].Floor,
@@ -125,7 +121,7 @@ namespace ParquetClassLibrary.Map
         /// <param name="in_collectibleID">ID for the new collectible to set.</param>
         /// <param name="in_position">The position to set.</param>
         /// <returns><c>true</c>, if the collectible was set, <c>false</c> otherwise.</returns>
-        public bool TrySetCollectibleDefinition(EntityID in_collectibleID, Vector2Int in_position)
+        public bool TrySetCollectibleDefinition(GameObjectID in_collectibleID, Point in_position)
             => IsValidPosition(in_position)
             && TrySetParquetDefinition(
                     _parquetDefintion[in_position.Y, in_position.X].Floor,
@@ -143,8 +139,8 @@ namespace ParquetClassLibrary.Map
         /// <param name="in_collectibleID">ID for the new collectible to set.</param>
         /// <param name="in_position">The position to put the parquet in.</param>
         /// <returns><c>true</c>, if the parquet was set, <c>false</c> otherwise.</returns>
-        public bool TrySetParquetDefinition(EntityID in_floorID, EntityID in_blockID, EntityID in_furnishingID,
-                                            EntityID in_collectibleID, Vector2Int in_position)
+        public bool TrySetParquetDefinition(GameObjectID in_floorID, GameObjectID in_blockID, GameObjectID in_furnishingID,
+                                            GameObjectID in_collectibleID, Point in_position)
         {
             var result = false;
             if (IsValidPosition(in_position))
@@ -240,7 +236,7 @@ namespace ParquetClassLibrary.Map
         /// </summary>
         /// <param name="in_position">The position whose status is sought.</param>
         /// <returns>The status of parquets at the given position, or <c>null</c> if the position is invalid.</returns>
-        public ParquetStatus GetStatusAtPosition(Vector2Int in_position)
+        public ParquetStatus GetStatusAtPosition(Point in_position)
             => IsValidPosition(in_position)
                 ? _parquetStatus[in_position.Y, in_position.X]
                 : null;
@@ -250,7 +246,7 @@ namespace ParquetClassLibrary.Map
         /// </summary>
         /// <param name="in_position">The position whose floor is sought.</param>
         /// <returns>The floor at the given position, or <c>null</c> if there is none.</returns>
-        public ParquetStack GetDefinitionAtPosition(Vector2Int in_position)
+        public ParquetStack GetDefinitionAtPosition(Point in_position)
             => IsValidPosition(in_position)
                 ? _parquetDefintion[in_position.Y, in_position.X]
                 : ParquetStack.Empty;
@@ -260,27 +256,27 @@ namespace ParquetClassLibrary.Map
         /// </summary>
         /// <returns>A collection of parquets.</returns>
         // TODO This should probably be rethought.
-        public IEnumerable<EntityID> GetAllParquets()
+        public IEnumerable<GameObjectID> GetAllParquets()
         {
-            var result = new List<EntityID>();
+            var result = new List<GameObjectID>();
 
             for (var y = 0; y < DimensionsInParquets.Y; y++)
             {
                 for (var x = 0; x < DimensionsInParquets.X; x++)
                 {
-                    if (EntityID.None != _parquetDefintion[y, x].Floor)
+                    if (GameObjectID.None != _parquetDefintion[y, x].Floor)
                     {
                         result.Add(_parquetDefintion[y, x].Floor);
                     }
-                    if (EntityID.None != _parquetDefintion[y, x].Block)
+                    if (GameObjectID.None != _parquetDefintion[y, x].Block)
                     {
                         result.Add(_parquetDefintion[y, x].Floor);
                     }
-                    if (EntityID.None != _parquetDefintion[y, x].Furnishing)
+                    if (GameObjectID.None != _parquetDefintion[y, x].Furnishing)
                     {
                         result.Add(_parquetDefintion[y, x].Floor);
                     }
-                    if (EntityID.None != _parquetDefintion[y, x].Collectible)
+                    if (GameObjectID.None != _parquetDefintion[y, x].Collectible)
                     {
                         result.Add(_parquetDefintion[y, x].Floor);
                     }
@@ -295,7 +291,7 @@ namespace ParquetClassLibrary.Map
         /// </summary>
         /// <param name="in_position">The position whose data is sought.</param>
         /// <returns>The special points at the position.</returns>
-        public List<SpecialPoint> GetSpecialPointsAtPosition(Vector2Int in_position)
+        public List<SpecialPoint> GetSpecialPointsAtPosition(Point in_position)
             => _specialPoints.FindAll(in_point => in_point.Position.Equals(in_position));
         #endregion
 
@@ -318,7 +314,7 @@ namespace ParquetClassLibrary.Map
         /// </summary>
         /// <param name="in_position">The position to validate.</param>
         /// <returns><c>true</c>, if the position is valid, <c>false</c> otherwise.</returns>
-        public bool IsValidPosition(Vector2Int in_position)
+        public bool IsValidPosition(Point in_position)
         {
             return in_position.X > -1
                 && in_position.Y > -1
@@ -333,19 +329,19 @@ namespace ParquetClassLibrary.Map
         /// <returns>A <see langword="string"/> that represents the current map.</returns>
         internal string DumpMap()
         {
-            var representation = new StringBuilder(DimensionsInParquets.Magnitude);
+            var representation = new StringBuilder(DimensionsInParquets.Magnitude());
             #region Compose visual represenation of contents.
             for (var x = 0; x < DimensionsInParquets.X; x++)
             {
                 for (var y = 0; y < DimensionsInParquets.Y; y++)
                 {
-                    var parquet = EntityID.None != _parquetDefintion[y, x].Collectible
+                    var parquet = GameObjectID.None != _parquetDefintion[y, x].Collectible
                         ? All.Parquets.Get<ParquetParent>(_parquetDefintion[y, x].Collectible) 
-                        : EntityID.None != _parquetDefintion[y, x].Furnishing
+                        : GameObjectID.None != _parquetDefintion[y, x].Furnishing
                             ? All.Parquets.Get<ParquetParent>(_parquetDefintion[y, x].Furnishing)
-                            : EntityID.None != _parquetDefintion[y, x].Block
+                            : GameObjectID.None != _parquetDefintion[y, x].Block
                                 ? All.Parquets.Get<ParquetParent>(_parquetDefintion[y, x].Block)
-                                : EntityID.None != _parquetDefintion[y, x].Floor
+                                : GameObjectID.None != _parquetDefintion[y, x].Floor
                                     ? All.Parquets.Get<ParquetParent>(_parquetDefintion[y, x].Floor)
                                     : null;
 
@@ -365,25 +361,25 @@ namespace ParquetClassLibrary.Map
         /// <returns>A <see langword="string"/> that represents the current map.</returns>
         public string DumpMapWithLayers()
         {
-            var floorRepresentation = new StringBuilder(DimensionsInParquets.Magnitude);
-            var blocksRepresentation = new StringBuilder(DimensionsInParquets.Magnitude);
-            var furnishingsRepresentation = new StringBuilder(DimensionsInParquets.Magnitude);
-            var collectiblesRepresentation = new StringBuilder(DimensionsInParquets.Magnitude);
+            var floorRepresentation = new StringBuilder(DimensionsInParquets.Magnitude());
+            var blocksRepresentation = new StringBuilder(DimensionsInParquets.Magnitude());
+            var furnishingsRepresentation = new StringBuilder(DimensionsInParquets.Magnitude());
+            var collectiblesRepresentation = new StringBuilder(DimensionsInParquets.Magnitude());
             #region Compose visual represenation of contents.
             for (var x = 0; x < DimensionsInParquets.X; x++)
             {
                 for (var y = 0; y < DimensionsInParquets.Y; y++)
                 {
-                    floorRepresentation.Append(EntityID.None != _parquetDefintion[y, x].Floor
+                    floorRepresentation.Append(GameObjectID.None != _parquetDefintion[y, x].Floor
                         ? All.Parquets.Get<Floor>(_parquetDefintion[y, x].Floor).ToString()
                         : "~");
-                    blocksRepresentation.Append(EntityID.None != _parquetDefintion[y, x].Block
+                    blocksRepresentation.Append(GameObjectID.None != _parquetDefintion[y, x].Block
                         ? All.Parquets.Get<Block>(_parquetDefintion[y, x].Block).ToString()
                         : " ");
-                    furnishingsRepresentation.Append(EntityID.None != _parquetDefintion[y, x].Furnishing
+                    furnishingsRepresentation.Append(GameObjectID.None != _parquetDefintion[y, x].Furnishing
                         ? All.Parquets.Get<Furnishing>(_parquetDefintion[y, x].Furnishing).ToString()
                         : " ");
-                    collectiblesRepresentation.Append(EntityID.None != _parquetDefintion[y, x].Collectible
+                    collectiblesRepresentation.Append(GameObjectID.None != _parquetDefintion[y, x].Collectible
                         ? All.Parquets.Get<Collectible>(_parquetDefintion[y, x].Collectible).ToString()
                         : " ");
                 }

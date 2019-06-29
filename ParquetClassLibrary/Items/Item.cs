@@ -9,7 +9,7 @@ namespace ParquetClassLibrary.Items
     /// <summary>
     /// Models an item that characters may carry, use, equip, trade, and/or build with.
     /// </summary>
-    public class Item : Entity
+    public class Item : GameObject
     {
         /// <summary>The type of item this is.</summary>
         [JsonProperty(PropertyName = "in_subtype")]
@@ -39,15 +39,15 @@ namespace ParquetClassLibrary.Items
 
         /// <summary>The parquet that corresponds to this item, if any.</summary>
         [JsonProperty(PropertyName = "in_asParquet")]
-        public EntityID AsParquet { get; }
+        public GameObjectID AsParquet { get; }
 
         /// <summary>Any <see cref="Biomes.Biome"/>-related functionality this item has.</summary>
         [JsonProperty(PropertyName = "in_itemTags")]
-        public IReadOnlyList<EntityTag> ItemTags { get; }
+        public IReadOnlyList<GameObjectTag> ItemTags { get; }
 
         /// <summary>How this item is crafted.</summary>
         [JsonProperty(PropertyName = "in_recipe")]
-        public EntityID Recipe { get; }
+        public GameObjectID Recipe { get; }
 
         #region Initialization
         /// <summary>
@@ -66,12 +66,12 @@ namespace ParquetClassLibrary.Items
         /// <param name="in_effectWhenUsed"><see cref="Item"/>'s active effect.</param>
         /// <param name="in_asParquet">The parquet represented, if any.</param>
         /// <param name="in_itemTags">Any <see cref="Biomes.Biome"/>-related functionality this item has.</param>
-        /// <param name="in_recipeID">The <see cref="EntityID"/> that expresses how to craft this <see cref="Item"/>.</param>
+        /// <param name="in_recipeID">The <see cref="GameObjectID"/> that expresses how to craft this <see cref="Item"/>.</param>
         [JsonConstructor]
-        public Item(EntityID in_id, ItemType in_subtype, string in_name, string in_description, string in_comment,
+        public Item(GameObjectID in_id, ItemType in_subtype, string in_name, string in_description, string in_comment,
                     int in_price, int in_rarity, int in_stackMax, int in_effectWhileHeld,
-                    int in_effectWhenUsed, EntityID in_asParquet,
-                    List<EntityTag> in_itemTags = null, EntityID? in_recipeID = null)
+                    int in_effectWhenUsed, GameObjectID in_asParquet,
+                    List<GameObjectTag> in_itemTags = null, GameObjectID? in_recipeID = null)
             : base(All.ItemIDs, in_id, in_name, in_description, in_comment)
         {
             Precondition.IsInRange(in_asParquet, All.ParquetIDs, nameof(in_asParquet));
@@ -101,7 +101,7 @@ namespace ParquetClassLibrary.Items
             }
             */
 
-            var nonNullItemTags = in_itemTags ?? Enumerable.Empty<EntityTag>().ToList();
+            var nonNullItemTags = in_itemTags ?? Enumerable.Empty<GameObjectTag>().ToList();
             var nonNullCraftingRecipeID = in_recipeID ?? CraftingRecipe.NotCraftable.ID;
 
             Subtype = in_subtype;

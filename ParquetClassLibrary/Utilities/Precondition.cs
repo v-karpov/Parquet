@@ -15,13 +15,13 @@ namespace ParquetClassLibrary.Utilities
         #endregion
 
         /// <summary>
-        /// Checks if the given <see cref="EntityID"/> falls within the given <see cref="Range{T}"/>.
+        /// Checks if the given <see cref="GameObjectID"/> falls within the given <see cref="Range{T}"/>.
         /// </summary>
         /// <param name="in_id">The identifier to test.</param>
         /// <param name="in_bounds">The range it must fall within.</param>
         /// <param name="in_argumentName">The name of the argument to use in error reporting.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the identifier is not in range.</exception>
-        public static void IsInRange(EntityID in_id, Range<EntityID> in_bounds,
+        public static void IsInRange(GameObjectID in_id, Range<GameObjectID> in_bounds,
                                      string in_argumentName = DefaultArgumentName)
         {
             if (!in_id.IsValidForRange(in_bounds))
@@ -37,7 +37,7 @@ namespace ParquetClassLibrary.Utilities
         /// <param name="in_outerBounds">The range it must fall within.</param>
         /// <param name="in_argumentName">The name of the argument to use in error reporting.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the first range is not in the second range.</exception>
-        public static void IsInRange(Range<EntityID> in_innerBounds, Range<EntityID> in_outerBounds,
+        public static void IsInRange(Range<GameObjectID> in_innerBounds, Range<GameObjectID> in_outerBounds,
                                      string in_argumentName = DefaultArgumentName)
         {
             if (!in_outerBounds.ContainsRange(in_innerBounds))
@@ -48,14 +48,14 @@ namespace ParquetClassLibrary.Utilities
         }
 
         /// <summary>
-        /// Checks if the first given <see cref="EntityID"/> falls within at least one of the
+        /// Checks if the first given <see cref="GameObjectID"/> falls within at least one of the
         /// given collection of <see cref="Range{T}"/>s.
         /// </summary>
         /// <param name="in_id">The identifier to test.</param>
         /// <param name="in_boundsCollection">The collection of ranges it must fall within.</param>
         /// <param name="in_argumentName">The name of the argument to use in error reporting.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the identifier is not in any of the ranges.</exception>
-        public static void IsInRange(EntityID in_id, List<Range<EntityID>> in_boundsCollection,
+        public static void IsInRange(GameObjectID in_id, List<Range<GameObjectID>> in_boundsCollection,
                                      string in_argumentName = DefaultArgumentName)
         {
             if (!in_id.IsValidForRange(in_boundsCollection))
@@ -78,7 +78,7 @@ namespace ParquetClassLibrary.Utilities
         /// <param name="in_boundsCollection">The collection of ranges it must fall within.</param>
         /// <param name="in_argumentName">The name of the argument to use in error reporting.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the first range is not in the second range.</exception>
-        public static void IsInRange(Range<EntityID> in_innerBounds, List<Range<EntityID>> in_boundsCollection,
+        public static void IsInRange(Range<GameObjectID> in_innerBounds, List<Range<GameObjectID>> in_boundsCollection,
                                      string in_argumentName = DefaultArgumentName)
         {
             if (!in_boundsCollection.ContainsRange(in_innerBounds))
@@ -109,16 +109,16 @@ namespace ParquetClassLibrary.Utilities
         }
 
         /// <summary>
-        /// Verifies that all of the given <see cref="EntityID"/>s fall within the given <see cref="Range{T}"/>.
+        /// Verifies that all of the given <see cref="GameObjectID"/>s fall within the given <see cref="Range{T}"/>.
         /// </summary>
         /// <param name="in_enumerable">The identifiers to test.</param>
         /// <param name="in_bounds">The range they must fall within.</param>
         /// <param name="in_argumentName">The name of the argument to use in error reporting.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the identifier is not in range.</exception>
-        public static void AreInRange(IEnumerable<EntityID> in_enumerable, Range<EntityID> in_bounds,
+        public static void AreInRange(IEnumerable<GameObjectID> in_enumerable, Range<GameObjectID> in_bounds,
                                       string in_argumentName = DefaultArgumentName)
         {
-            foreach (var id in in_enumerable ?? Enumerable.Empty<EntityID>())
+            foreach (var id in in_enumerable ?? Enumerable.Empty<GameObjectID>())
             {
                 if (!id.IsValidForRange(in_bounds))
                 {
@@ -128,17 +128,17 @@ namespace ParquetClassLibrary.Utilities
         }
 
         /// <summary>
-        /// Verifies that all of the given <see cref="EntityID"/>s fall within the given 
+        /// Verifies that all of the given <see cref="GameObjectID"/>s fall within the given 
         /// collection of <see cref="Range{T}"/>s.
         /// </summary>
         /// <param name="in_enumerable">The identifiers to test.</param>
         /// <param name="in_boundsCollection">The collection of ranges they must fall within.</param>
         /// <param name="in_argumentName">The name of the argument to use in error reporting.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the identifier is not in range.</exception>
-        public static void AreInRange(IEnumerable<EntityID> in_enumerable, List<Range<EntityID>> in_boundsCollection,
+        public static void AreInRange(IEnumerable<GameObjectID> in_enumerable, List<Range<GameObjectID>> in_boundsCollection,
                                       string in_argumentName = DefaultArgumentName)
         {
-            foreach (var id in in_enumerable ?? Enumerable.Empty<EntityID>())
+            foreach (var id in in_enumerable ?? Enumerable.Empty<GameObjectID>())
             {
                 if (!id.IsValidForRange(in_boundsCollection))
                 {

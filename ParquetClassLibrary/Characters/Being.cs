@@ -8,20 +8,20 @@ namespace ParquetClassLibrary.Characters
     /// <summary>
     /// Models the basic definitions shared by any in-game actor.
     /// </summary>
-    public abstract class Being : Entity
+    public abstract class Being : GameObject
     {
         #region Characteristics
-        /// <summary>The <see cref="EntityID"/> of the <see cref="Biome"/> in which this character is at home.</summary>
-        public EntityID NativeBiome { get; }
+        /// <summary>The <see cref="GameObjectID"/> of the <see cref="Biome"/> in which this character is at home.</summary>
+        public GameObjectID NativeBiome { get; }
 
         /// <summary>The <see cref="Behavior"/> governing the way this character acts.</summary>
         public Behavior PrimaryBehavior { get; }
 
         /// <summary>Types of parquets this critter avoids, if any.</summary>
-        public IReadOnlyList<EntityID> Avoids { get; }
+        public IReadOnlyList<GameObjectID> Avoids { get; }
 
         /// <summary>Types of parquets this critter seeks out, if any.</summary>
-        public IReadOnlyList<EntityID> Seeks { get; }
+        public IReadOnlyList<GameObjectID> Seeks { get; }
         #endregion
 
         #region Initialization
@@ -29,20 +29,20 @@ namespace ParquetClassLibrary.Characters
         /// Used by <see cref="Being"/> subtypes.
         /// </summary>
         /// <param name="in_bounds">
-        /// The bounds within which the <see cref="Being"/>'s <see cref="EntityID"/> is defined.
+        /// The bounds within which the <see cref="Being"/>'s <see cref="GameObjectID"/> is defined.
         /// Must be one of <see cref="All.BeingIDs"/>.
         /// </param>
         /// <param name="in_id">Unique identifier for the <see cref="Being"/>.  Cannot be null.</param>
         /// <param name="in_name">Player-friendly name of the <see cref="Being"/>.  Cannot be null or empty.</param>
         /// <param name="in_description">Player-friendly description of the <see cref="Being"/>.</param>
         /// <param name="in_comment">Comment of, on, or by the <see cref="Being"/>.</param>
-        /// <param name="in_nativeBiome">The <see cref="EntityID"/> for the <see cref="Biome"/> in which this <see cref="Being"/> is most comfortable.</param>
+        /// <param name="in_nativeBiome">The <see cref="GameObjectID"/> for the <see cref="Biome"/> in which this <see cref="Being"/> is most comfortable.</param>
         /// <param name="in_primaryBehavior">The rules that govern how this <see cref="Being"/> acts.  Cannot be null.</param>
         /// <param name="in_avoids">Any parquets this <see cref="Being"/> avoids.</param>
         /// <param name="in_seeks">Any parquets this <see cref="Being"/> seeks.</param>
-        protected Being(Range<EntityID> in_bounds, EntityID in_id, string in_name, string in_description,
-                        string in_comment, EntityID in_nativeBiome, Behavior in_primaryBehavior,
-                        List<EntityID> in_avoids = null, List<EntityID> in_seeks = null)
+        protected Being(Range<GameObjectID> in_bounds, GameObjectID in_id, string in_name, string in_description,
+                        string in_comment, GameObjectID in_nativeBiome, Behavior in_primaryBehavior,
+                        List<GameObjectID> in_avoids = null, List<GameObjectID> in_seeks = null)
             : base(in_bounds, in_id, in_name, in_description, in_comment)
         {
             Precondition.IsInRange(in_bounds, All.BeingIDs, nameof(in_bounds));
@@ -52,8 +52,8 @@ namespace ParquetClassLibrary.Characters
 
             NativeBiome = in_nativeBiome;
             PrimaryBehavior = in_primaryBehavior;
-            Avoids = (in_avoids ?? Enumerable.Empty<EntityID>()).ToList();
-            Seeks = (in_seeks ?? Enumerable.Empty<EntityID>()).ToList();
+            Avoids = (in_avoids ?? Enumerable.Empty<GameObjectID>()).ToList();
+            Seeks = (in_seeks ?? Enumerable.Empty<GameObjectID>()).ToList();
         }
         #endregion
     }
